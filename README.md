@@ -41,6 +41,12 @@ least important go first. A new urgent notification takes the line for five seco
 until it's gone. A tap (or a swipe down) opens the shade, or the notification on the line.
 SystemUI's own panel never opens.
 
+### The system's look
+
+What's left of stock Android (SystemUI's volume dialog, permission prompts, the share sheet,
+system dialogs) is set once, the first time Settings starts, to Material You's monochrome style
+on Lineage's pure black: grays and black, no color from the wallpaper (`SystemLook`).
+
 ### The shade
 
 The notification shade and quick settings are here too, as one Nine list in place of SystemUI's

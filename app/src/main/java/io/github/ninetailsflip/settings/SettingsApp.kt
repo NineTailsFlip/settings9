@@ -57,6 +57,7 @@ class SettingsApp : Application() {
         // the first time the shade opens.
         ShadeFeed.grantAccess(this)
         OwnPermissions.grant(this)
+        SystemLook.applyOnce(this)
     }
 }
 

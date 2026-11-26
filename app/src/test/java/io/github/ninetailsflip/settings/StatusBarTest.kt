@@ -92,3 +92,27 @@ class HeadsUpRulesTest {
         assertEquals("Messages", HeadsUpRules.line("Messages", null, " "))
     }
 }
+
+@org.junit.runner.RunWith(org.robolectric.RobolectricTestRunner::class)
+class SystemLookTest {
+    private val context = org.robolectric.RuntimeEnvironment.getApplication()
+    private val resolver get() = context.contentResolver
+    private val theme = "theme_customization_overlay_packages"
+
+    @Test
+    fun `the monochrome style goes in, keeping the color source`() {
+        android.provider.Settings.Secure.putString(resolver, theme,
+            """{"android.theme.customization.color_source":"home_wallpaper","android.theme.customization.theme_style":"TONAL_SPOT"}""")
+        SystemLook.apply(context)
+        val json = org.json.JSONObject(android.provider.Settings.Secure.getString(resolver, theme))
+        assertEquals("MONOCHROMATIC", json.getString(SystemLook.STYLE_KEY))
+        assertEquals("home_wallpaper", json.getString("android.theme.customization.color_source"))
+    }
+
+    @Test
+    fun `with nothing set yet it sets the style alone`() {
+        SystemLook.apply(context)
+        val json = org.json.JSONObject(android.provider.Settings.Secure.getString(resolver, theme))
+        assertEquals("MONOCHROMATIC", json.getString(SystemLook.STYLE_KEY))
+    }
+}
