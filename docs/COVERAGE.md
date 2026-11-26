@@ -64,7 +64,8 @@ image.
 | Per-app notifications | ✅ (on the app's page) |
 | Notification history, conversations, bubbles | ⏳ |
 | Notification access (apps that read notifications) | ⏳ |
-| Notification cooldown, snoozing, dot on app icon, heads-up, blink light | ⏳ |
+| Heads-up (pop-up) notifications | ✅ — on the status bar's line (`StatusBarService`); SystemUI's are off |
+| Notification cooldown, snoozing, dot on app icon, blink light | ⏳ |
 | Wireless emergency alerts | ⏳ |
 
 ## Sound & vibration
@@ -193,6 +194,7 @@ image.
 | What | Here |
 |---|---|
 | K9 layouts, more than one at a time (also a step of the first-time setup) | ✅ |
+| The status bar: time, notifications, alarm, Do not disturb, ringer, Bluetooth, Wi-Fi, signal, battery; always shown (patch `0011`) | ✅ — `StatusBarService` |
 | The notification shade and quick settings, in place of SystemUI's panel (long press Home, apps expanding the status bar; patch `0010`) | ✅ — `ShadeActivity` |
 | Shade: notifications newest first, the music, open/dismiss/clear all, actions and typed replies | ✅ |
 | Shade: Wi-Fi, Bluetooth, mobile data, airplane, flashlight, Do not disturb, sound mode, brightness, location, battery saver | ✅ |

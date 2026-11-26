@@ -109,6 +109,8 @@ object ShadeFeed {
     @Volatile var connected = false
         private set
     var onChange: (() -> Unit)? = null
+    /** The status bar's count of notifications ([StatusBarService]). */
+    var onBarChange: (() -> Unit)? = null
 
     private var listener: ShadeListener? = null
     private val main = Handler(Looper.getMainLooper())
@@ -209,7 +211,10 @@ object ShadeFeed {
     }
 
     private fun changed() {
-        main.post { onChange?.invoke() }
+        main.post {
+            onChange?.invoke()
+            onBarChange?.invoke()
+        }
     }
 
     /** Settings reads the notifications to show them in the shade; a system app may grant itself
@@ -230,8 +235,19 @@ object ShadeFeed {
 class ShadeListener : NotificationListenerService() {
     override fun onListenerConnected() = ShadeFeed.attach(this)
     override fun onListenerDisconnected() = ShadeFeed.detach(this)
-    override fun onNotificationPosted(sbn: StatusBarNotification?) = ShadeFeed.reload()
-    override fun onNotificationRemoved(sbn: StatusBarNotification?) = ShadeFeed.reload()
+    override fun onNotificationPosted(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
+        if (sbn != null) {
+            // A new one goes on the status bar's line for a moment, as SystemUI's pop-up would.
+            val seen = ShadeFeed.notifications.any { it.key == sbn.key }
+            val ranking = Ranking().takeIf { rankingMap?.getRanking(sbn.key, it) == true }
+            StatusBarService.instance?.posted(sbn, ranking, seen)
+        }
+        ShadeFeed.reload()
+    }
+    override fun onNotificationRemoved(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
+        sbn?.let { StatusBarService.instance?.removed(it.key) }
+        ShadeFeed.reload()
+    }
     override fun onNotificationRankingUpdate(rankingMap: RankingMap?) = ShadeFeed.reload()
 }
 

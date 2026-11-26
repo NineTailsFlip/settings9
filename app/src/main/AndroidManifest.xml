@@ -49,6 +49,10 @@
     <uses-permission android:name="android.permission.MANAGE_NOTIFICATION_LISTENERS" />
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
+    <!-- The status bar: its window over SystemUI's, and SystemUI's own icons off meanwhile. -->
+    <uses-permission android:name="android.permission.STATUS_BAR_SERVICE" />
+    <uses-permission android:name="android.permission.STATUS_BAR" />
+
     <!-- :update is only here for SetupChoices: Settings is part of the image and is updated with
          it, never on its own. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" tools:node="remove" />
@@ -58,6 +62,7 @@
         android:label="Settings"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
+        android:defaultToDeviceProtectedStorage="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:theme="@style/Theme.Nine">
 
@@ -133,6 +138,14 @@
             android:excludeFromRecents="true"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <!-- The status bar. The system binds it from boot, before the first unlock too
+             (android_vendor_thor2's patch 0011, ro.config.thor2_statusbar); nobody else may. -->
+        <service
+            android:name=".StatusBarService"
+            android:exported="true"
+            android:directBootAware="true"
+            android:permission="android.permission.STATUS_BAR_SERVICE" />
 
         <service
             android:name=".ShadeListener"

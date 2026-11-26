@@ -30,6 +30,17 @@ any app asking for an `android.settings.*` page. Every page is a Nine list. Part
 | System | Languages, keyboard and K9's layouts (any number), date and time and time zone, buttons and lid (each extra key's short and long press, the red key, long press Home, the lid), developer options, erase everything |
 | About phone | Device name, model, Android and LineageOS versions, build number (7 presses: developer options), phone number, IMEI, IP, uptime |
 
+### The status bar
+
+The status bar is Settings' too: one line over SystemUI's, always shown (android_vendor_thor2's
+patch `0011` keeps it on and every app's content below it). The time on the left; on the right
+what's new and what's on - `✉3`, an alarm, Do not disturb, vibrate or silent, Bluetooth, Wi-Fi,
+the signal, the battery - bright when connected, gray when only on; with too little room the
+least important go first. A new urgent notification takes the line for five seconds
+("Mom: are you coming?") in place of SystemUI's pop-ups, which it turns off; an alarm's stays
+until it's gone. A tap (or a swipe down) opens the shade, or the notification on the line.
+SystemUI's own panel never opens.
+
 ### The shade
 
 The notification shade and quick settings are here too, as one Nine list in place of SystemUI's
@@ -90,7 +101,7 @@ A tag `v<versionName>` builds and publishes a release (NineTailsFlip/.github's `
 
 | Path | What's there |
 |---|---|
-| `app/src/main/java/io/github/ninetailsflip/settings/` | `ScreenActivity`, `Screen`, `Screens`, the pages (`MainScreen`, `NetworkScreens`, `BluetoothScreen`, `AppsScreens`, `DeviceScreens`, `SecurityScreens`, `SystemScreens`, `AboutScreen`), `Hidden`; the shade (`ShadeActivity`, `Shade`: the screen, its notification listener, the flashlight) |
+| `app/src/main/java/io/github/ninetailsflip/settings/` | `ScreenActivity`, `Screen`, `Screens`, the pages (`MainScreen`, `NetworkScreens`, `BluetoothScreen`, `AppsScreens`, `DeviceScreens`, `SecurityScreens`, `SystemScreens`, `AboutScreen`), `Hidden`; the shade (`ShadeActivity`, `Shade`: the screen, its notification listener, the flashlight); the status bar (`StatusBar`: `StatusBarService`, its line and its pop-up line) |
 | `docs/COVERAGE.md` | The stock Settings pages, and which are done |
 | `nine-core/` | Git submodule: [nine-core](https://github.com/NineTailsFlip/nine-core) |
 
