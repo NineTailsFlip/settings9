@@ -69,6 +69,20 @@ object ShadeRules {
             .map { it.key }
     }
 
+    /** [Posted] for a notification. Its group is the one Android files it under: an app's own,
+     *  or the one the system bundles an app's loose notifications into (`overrideGroupKey`), whose
+     *  summary has no text of its own. */
+    fun of(sbn: StatusBarNotification): Posted {
+        val n = sbn.notification
+        return Posted(
+            sbn.key,
+            sbn.groupKey.takeIf { sbn.isGroup },
+            n.flags and Notification.FLAG_GROUP_SUMMARY != 0,
+            n.category == Notification.CATEGORY_TRANSPORT || n.extras.containsKey(Notification.EXTRA_MEDIA_SESSION),
+            sbn.postTime,
+        )
+    }
+
     /** "now", "5 min", "3 h", else the time or the date: how long ago a notification came. */
     fun ago(now: Long, then: Long, locale: Locale = Locale.getDefault()): String {
         val minutes = (now - then) / 60_000
@@ -119,13 +133,8 @@ object ShadeFeed {
         val service = listener ?: return
         val active = runCatching { service.activeNotifications }.getOrNull().orEmpty()
         val byKey = active.associateBy { it.key }
-        val posted = active.map {
-            Posted(it.key, it.groupKey.takeIf { _ -> it.notification.group != null }, it.notification.flags and Notification.FLAG_GROUP_SUMMARY != 0,
-                it.notification.category == Notification.CATEGORY_TRANSPORT || it.notification.extras.containsKey(Notification.EXTRA_MEDIA_SESSION),
-                it.postTime)
-        }
         val context = service.applicationContext
-        notifications = ShadeRules.listed(posted).mapNotNull { byKey[it] }.map { item(context, it) }
+        notifications = ShadeRules.listed(active.map(ShadeRules::of)).mapNotNull { byKey[it] }.map { item(context, it) }
         changed()
     }
 

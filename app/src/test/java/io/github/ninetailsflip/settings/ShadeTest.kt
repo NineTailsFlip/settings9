@@ -1,6 +1,9 @@
 package io.github.ninetailsflip.settings
 
+import android.app.Notification
 import android.content.Intent
+import android.os.Process
+import android.service.notification.StatusBarNotification
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +67,22 @@ class ShadeTest {
         val activity = shade(null)
         activity.onKeyDown(KeyEvent.KEYCODE_BACK, KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK))
         assertTrue(activity.isFinishing)
+    }
+
+    @Suppress("DEPRECATION")
+    private fun sbn(id: Int, notification: Notification, overrideGroup: String? = null, tag: String? = null) =
+        StatusBarNotification("android", "android", id, tag, 1000, 0, 0, notification, Process.myUserHandle(), id.toLong())
+            .apply { overrideGroupKey = overrideGroup }
+
+    @Test
+    fun `the system's bundle of loose notifications hides behind them`() {
+        // As on the phone: Android bundles its silent notifications under a summary with no text.
+        val group = "Aggregate_SilentSection"
+        val summary = Notification.Builder(context, "c").setGroup(group).setGroupSummary(true).build()
+        val usb = Notification.Builder(context, "c").setContentTitle("Charging this device via USB").build()
+        val adb = Notification.Builder(context, "c").setContentTitle("USB debugging connected").build()
+        val posted = listOf(sbn(1, summary, group, "-1|android|g:$group"), sbn(32, usb, group), sbn(26, adb)).map(ShadeRules::of)
+        assertEquals(listOf(posted[1].key, posted[2].key), ShadeRules.listed(posted)) // newest first, no summary
     }
 }
 
