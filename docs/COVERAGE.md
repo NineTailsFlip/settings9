@@ -198,7 +198,8 @@ image.
 | Shade: Wi-Fi, Bluetooth, mobile data, airplane, flashlight, Do not disturb, sound mode, brightness, location, battery saver | ✅ |
 | Shade: hotspot, screen cast, third-party Quick Settings tiles (`TileService`) | ⏳ |
 | The Nine apps' look (font, hint bar) for all of them at once, as in the first-time setup | ⏳ |
-| Outer screen (ThorSubScreen) | ⏳ |
+| Outer screen (ThorSubScreen): Display → Outer screen, through ThorSubScreen's `PrefsProvider` | ✅ |
+| Buttons and lid (ThorSubScreen's keys, the red key, long press Home, the lid): System → Buttons and lid | ✅ |
 | Recent apps (L9) | ✅ — in L9, not here |
 
 ## The system's own dialogs in the stock app

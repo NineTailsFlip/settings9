@@ -52,6 +52,7 @@ class ScreensTest {
             Screens.NOTIFICATIONS, Screens.SOUND, Screens.DISPLAY, Screens.BATTERY, Screens.STORAGE, Screens.SECURITY,
             Screens.LOCATION, Screens.ACCOUNTS, Screens.ACCESSIBILITY, Screens.SYSTEM, Screens.LANGUAGES,
             Screens.KEYBOARD, Screens.LAYOUTS, Screens.DATE_TIME, Screens.ZONES, Screens.DEVELOPER, Screens.RESET, Screens.ABOUT,
+            Screens.OUTER, Screens.KEYS,
         )
         names.forEach { name ->
             val activity = launch(ScreenActivity.intentFor(context, name))

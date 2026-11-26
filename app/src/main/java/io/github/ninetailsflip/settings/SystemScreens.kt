@@ -22,11 +22,7 @@ class SystemScreen : Screen("System") {
             add(Row("Languages", locale.getDisplayName(locale)) { open(Screens.LANGUAGES) })
             add(Row("Keyboard", Keyboard.summary(context)) { open(Screens.KEYBOARD) })
             add(Row("Date and time", DateTime.summary(context)) { open(Screens.DATE_TIME) })
-            // thor2's PhoneWindowManager (android_vendor_thor2, patches/frameworks_base 0002).
-            val shade = context.globalInt("thor2_home_long_press_shade", 1) == 1
-            add(Row("Long press Home", if (shade) "opens the notification shade" else "does nothing", adjust = {
-                Settings.Global.putInt(context.contentResolver, "thor2_home_long_press_shade", if (shade) 0 else 1)
-            }))
+            add(Row("Buttons and lid", "the extra keys, the red key, long press Home, the lid") { open(Screens.KEYS) })
             if (developer) add(Row("Developer options", "for app developers") { open(Screens.DEVELOPER) })
             add(Row("Reset", "erase everything on the phone") { open(Screens.RESET) })
         }

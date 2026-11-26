@@ -435,6 +435,14 @@ class ShadeScreen(var panel: String?) : Screen("") {
                 }) to Entry.Tile("Battery saver", Screens.BATTERY),
             )
         }
+        OuterScreen.read(context)?.let { s ->
+            val outer = OuterScreen.flag(s, "enabled")
+            add(
+                Row("Outer screen", onOff(outer), marked = outer, ok = {
+                    if (!OuterScreen.write(context, "enabled", !outer)) say("the outer screen didn't take it")
+                }) to Entry.Tile("Outer screen", Screens.OUTER),
+            )
+        }
         add(Row("All settings", "") { open(Screens.MAIN) } to Entry.Tile("Settings", null))
     }
 

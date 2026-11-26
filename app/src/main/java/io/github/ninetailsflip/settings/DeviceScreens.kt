@@ -118,7 +118,7 @@ object Display {
 class DisplayScreen : Screen("Display") {
     private val scales = listOf(0.85f, 1.0f, 1.15f, 1.3f)
 
-    override fun hint() = "←→ change · ‹ back"
+    override fun hint() = "←→ change · ok open · ‹ back"
 
     override fun rows(): List<Row> {
         val resolver = context.contentResolver
@@ -158,6 +158,10 @@ class DisplayScreen : Screen("Display") {
                 // 7: AC, USB and wireless.
                 Settings.Global.putInt(resolver, Settings.Global.STAY_ON_WHILE_PLUGGED_IN, if (stayOn) 0 else 7)
             }),
+        ) + listOfNotNull(
+            OuterScreen.read(context)?.let { s ->
+                Row("Outer screen", if (OuterScreen.flag(s, "enabled")) "on · clock, calls, notifications, music" else "off") { open(Screens.OUTER) }
+            },
         )
     }
 }

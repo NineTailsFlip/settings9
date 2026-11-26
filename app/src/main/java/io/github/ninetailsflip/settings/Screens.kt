@@ -33,6 +33,9 @@ object Screens {
     const val RESET = "reset"
     const val ABOUT = "about"
     const val SHADE = "shade"
+    const val OUTER = "outer"
+    const val KEYS = "keys"
+    const val KEY_ACTION = "key_action"
 
     fun create(name: String, arg: String?): Screen = when (name) {
         NETWORK -> NetworkScreen()
@@ -61,6 +64,9 @@ object Screens {
         RESET -> ResetScreen()
         ABOUT -> AboutScreen()
         SHADE -> ShadeScreen(arg)
+        OUTER -> OuterScreenScreen()
+        KEYS -> KeysScreen()
+        KEY_ACTION -> KeyActionScreen(arg.orEmpty())
         else -> MainScreen()
     }
 

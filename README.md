@@ -20,14 +20,14 @@ any app asking for an `android.settings.*` page. Every page is a Nine list. Part
 | Apps | Every app: info, open, notifications, permissions, force stop, turn off or uninstall, clear data; default apps |
 | Notifications | Do not disturb, the lock screen and its privacy |
 | Sound & vibration | Ring/vibrate/silent, five volumes, ringtone and notification and alarm sounds, vibrate when ringing, dial pad tones |
-| Display | Brightness, adaptive brightness, screen timeout, dark theme, text size, stay on while charging |
+| Display | Brightness, adaptive brightness, screen timeout, dark theme, text size, stay on while charging; the outer screen (pages, clock, status line, what lights it up, night mode) |
 | Battery | Charge, battery saver, percentage in the status bar |
 | Storage | Used and free, apps by size, files |
 | Security | Set, change or remove the PIN; permission manager; show passwords; install unknown apps |
 | Location | On/off, app access |
 | Accounts | Accounts on the phone, add one, auto-sync |
 | Accessibility | High-contrast text, color inversion, remove animations, accessibility services |
-| System | Languages, keyboard and K9's layouts (any number), date and time and time zone, long press Home, developer options, erase everything |
+| System | Languages, keyboard and K9's layouts (any number), date and time and time zone, buttons and lid (each extra key's short and long press, the red key, long press Home, the lid), developer options, erase everything |
 | About phone | Device name, model, Android and LineageOS versions, build number (7 presses: developer options), phone number, IMEI, IP, uptime |
 
 ### The shade
