@@ -32,6 +32,7 @@ object Screens {
     const val DEVELOPER = "developer"
     const val RESET = "reset"
     const val ABOUT = "about"
+    const val SHADE = "shade"
 
     fun create(name: String, arg: String?): Screen = when (name) {
         NETWORK -> NetworkScreen()
@@ -59,6 +60,7 @@ object Screens {
         DEVELOPER -> DeveloperScreen()
         RESET -> ResetScreen()
         ABOUT -> AboutScreen()
+        SHADE -> ShadeScreen(arg)
         else -> MainScreen()
     }
 

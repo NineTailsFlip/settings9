@@ -30,6 +30,19 @@ any app asking for an `android.settings.*` page. Every page is a Nine list. Part
 | System | Languages, keyboard and K9's layouts (any number), date and time and time zone, long press Home, developer options, erase everything |
 | About phone | Device name, model, Android and LineageOS versions, build number (7 presses: developer options), phone number, IMEI, IP, uptime |
 
+### The shade
+
+The notification shade and quick settings are here too, as one Nine list in place of SystemUI's
+panel (which needs a touchscreen). A long press on Home opens it, and so does any app expanding
+the status bar (android_vendor_thor2's patch `0010`); the same key closes it.
+
+- **Notifications**, newest first, with the music on top (play/pause, previous, next): OK opens
+  one, Left dismisses it, `*` lists its actions - a reply is typed under the list - and "Clear
+  all" is at the end.
+- **Quick settings:** Wi-Fi, Bluetooth, mobile data, airplane mode, flashlight, Do not disturb,
+  ring/vibrate/silent, brightness, location, battery saver. OK switches; `*` opens the setting's
+  page.
+
 [`docs/COVERAGE.md`](docs/COVERAGE.md) lists every page of the stock Settings app and where each
 stands here.
 
@@ -77,7 +90,7 @@ A tag `v<versionName>` builds and publishes a release (NineTailsFlip/.github's `
 
 | Path | What's there |
 |---|---|
-| `app/src/main/java/io/github/ninetailsflip/settings/` | `ScreenActivity`, `Screen`, `Screens`, the pages (`MainScreen`, `NetworkScreens`, `BluetoothScreen`, `AppsScreens`, `DeviceScreens`, `SecurityScreens`, `SystemScreens`, `AboutScreen`), `Hidden` |
+| `app/src/main/java/io/github/ninetailsflip/settings/` | `ScreenActivity`, `Screen`, `Screens`, the pages (`MainScreen`, `NetworkScreens`, `BluetoothScreen`, `AppsScreens`, `DeviceScreens`, `SecurityScreens`, `SystemScreens`, `AboutScreen`), `Hidden`; the shade (`ShadeActivity`, `Shade`: the screen, its notification listener, the flashlight) |
 | `docs/COVERAGE.md` | The stock Settings pages, and which are done |
 | `nine-core/` | Git submodule: [nine-core](https://github.com/NineTailsFlip/nine-core) |
 

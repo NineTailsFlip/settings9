@@ -193,7 +193,10 @@ image.
 | What | Here |
 |---|---|
 | K9 layouts, more than one at a time (also a step of the first-time setup) | ✅ |
-| Long press Home opens the shade (thor2's PhoneWindowManager) | ✅ |
+| The notification shade and quick settings, in place of SystemUI's panel (long press Home, apps expanding the status bar; patch `0010`) | ✅ — `ShadeActivity` |
+| Shade: notifications newest first, the music, open/dismiss/clear all, actions and typed replies | ✅ |
+| Shade: Wi-Fi, Bluetooth, mobile data, airplane, flashlight, Do not disturb, sound mode, brightness, location, battery saver | ✅ |
+| Shade: hotspot, screen cast, third-party Quick Settings tiles (`TileService`) | ⏳ |
 | The Nine apps' look (font, hint bar) for all of them at once, as in the first-time setup | ⏳ |
 | Outer screen (ThorSubScreen) | ⏳ |
 | Recent apps (L9) | ✅ — in L9, not here |
@@ -213,4 +216,4 @@ app until they move here, and it can't leave the image before then.
 | Add a device admin, request to ignore battery optimizations, usage access requests | ⏳ |
 | Add an account (`ADD_ACCOUNT_SETTINGS`) | ⏳ |
 | App widgets: bind, pick | ⏳ |
-| Quick Settings tile long-presses into pages not listed above | ⏳ |
+| Quick Settings tile long-presses into pages not listed above | ✅ — `*` on a switch in the shade opens its page |

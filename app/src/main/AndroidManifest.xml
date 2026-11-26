@@ -45,6 +45,9 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <!-- The shade: its own notification access, and the music's media session. -->
+    <uses-permission android:name="android.permission.MANAGE_NOTIFICATION_LISTENERS" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
     <!-- :update is only here for SetupChoices: Settings is part of the image and is updated with
          it, never on its own. -->
@@ -118,6 +121,27 @@
         <activity
             android:name=".LookActivity"
             android:exported="false" />
+
+        <!-- The notification shade and quick settings. The system starts it in place of SystemUI's
+             panel (android_vendor_thor2's patch 0010, ro.config.thor2_shade), as system_server,
+             so it needn't be exported. A panel of its own: its own task, never in Recents. -->
+        <activity
+            android:name=".ShadeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:taskAffinity="io.github.ninetailsflip.settings.shade"
+            android:excludeFromRecents="true"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <service
+            android:name=".ShadeListener"
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name="io.github.ninetailsflip.update.UpdateActivity"

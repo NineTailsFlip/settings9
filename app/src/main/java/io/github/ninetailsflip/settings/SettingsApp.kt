@@ -37,5 +37,8 @@ class SettingsApp : Application() {
         )
         // The look chosen in the phone's first-time setup, like every Nine app.
         SetupChoices.adopt(this)
+        // The shade's notifications: the listener is on from the first start, so they're there
+        // the first time the shade opens.
+        ShadeFeed.grantAccess(this)
     }
 }

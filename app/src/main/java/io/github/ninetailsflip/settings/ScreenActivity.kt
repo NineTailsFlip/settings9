@@ -34,9 +34,9 @@ import life.furrer.nine.core.ui.relaunch
  * [EXTRA_SCREEN] (and [EXTRA_ARG]), or, for an `android.settings.*` intent from another app or
  * the system, from [Screens.forIntent].
  */
-class ScreenActivity : NineActivity(), ScreenHost {
+open class ScreenActivity : NineActivity(), ScreenHost {
 
-    private lateinit var screen: Screen
+    protected lateinit var screen: Screen
     private var rows: List<Row> = emptyList()
     private var field: FieldRequest? = null
     private var message: String? = null
@@ -62,8 +62,7 @@ class ScreenActivity : NineActivity(), ScreenHost {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         StockSettings.hideLauncherEntry(this)
-        val (name, arg) = intent.getStringExtra(EXTRA_SCREEN)?.let { it to intent.getStringExtra(EXTRA_ARG) }
-            ?: Screens.forIntent(intent)
+        val (name, arg) = pageFor(intent)
         screen = Screens.create(name, arg).also { it.host = this }
 
         title = TextView(this).apply {
@@ -122,6 +121,10 @@ class ScreenActivity : NineActivity(), ScreenHost {
         render()
     }
 
+    /** The page an intent opens: [EXTRA_SCREEN], or an `android.settings.*` action's. */
+    protected open fun pageFor(intent: Intent): Pair<String, String?> =
+        intent.getStringExtra(EXTRA_SCREEN)?.let { it to intent.getStringExtra(EXTRA_ARG) } ?: Screens.forIntent(intent)
+
     override fun onResume() {
         super.onResume()
         safely("show") { screen.onShow() }
@@ -134,6 +137,12 @@ class ScreenActivity : NineActivity(), ScreenHost {
     }
 
     // ── ScreenHost ──────────────────────────────────────────────────────────────────────────
+
+    override val selected: Int get() = rowListView.selectedIndex
+
+    override fun select(index: Int) {
+        rowListView.setSelectedIndex(index.coerceIn(0, rows.lastIndex.coerceAtLeast(0)))
+    }
 
     override fun refresh() {
         rows = rowsOf()
@@ -221,7 +230,7 @@ class ScreenActivity : NineActivity(), ScreenHost {
     }
 
     private fun restart() {
-        val again = Intent(intent).setComponent(ComponentName(this, ScreenActivity::class.java))
+        val again = Intent(intent).setComponent(ComponentName(this, javaClass))
             .putExtra(EXTRA_ROW, rowListView.selectedIndex)
             .putExtra(EXTRA_MESSAGE, message)
         relaunch(again)

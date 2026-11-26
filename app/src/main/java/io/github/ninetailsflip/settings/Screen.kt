@@ -27,6 +27,9 @@ class FieldRequest(val prompt: String, val kind: FieldKind, val initial: String 
 /** The screen showing a [Screen]: [ScreenActivity]. */
 interface ScreenHost {
     val context: Context
+    /** The row selected now, and moving the selection (a page that opens on a given row). */
+    val selected: Int
+    fun select(index: Int)
     /** Something changed: redraw the rows where they are. */
     fun refresh()
     fun ask(request: FieldRequest)
@@ -45,7 +48,7 @@ interface ScreenHost {
  * list, `*` the menu, Back the previous page - so a page only says what its rows are and what
  * they do.
  */
-abstract class Screen(val title: String) {
+abstract class Screen(open val title: String) {
     lateinit var host: ScreenHost
     protected val context: Context get() = host.context
 
